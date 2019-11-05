@@ -1,0 +1,23 @@
+stages:
+ - build
+ - test
+ - deploy
+ - quality
+
+.build_template_make: &build_definition_make
+  stage: build
+  script:
+    - mkdir -p build
+    - cd build
+    - cmake -G "Unix Makefiles" ..
+    - make -j 4
+  artifacts:
+    paths:
+      - "build/"
+
+build-debian:oldstable:
+  image: cphtum/docker-bertha-debian:oldstable
+  tags:
+   - docker
+   - linux
+  <<: *build_definition_make
