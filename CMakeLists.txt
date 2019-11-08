@@ -9,6 +9,13 @@ set(VERSION_MAJOR 1)
 set(VERSION_MINOR 0)
 project(${PROJECT})
 
+# is install prefix set?
+set(PROJECT_PREFIX "")
+if(DEFINED ENV{PREFIX})
+  set(CMAKE_INSTALL_PREFIX $ENV{PREFIX})
+  set(PROJECT_PREFIX "--prefix $ENV{PREFIX}")
+endif(DEFINED ENV{PREFIX})
+
 # CXX_STANDARD is required
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
@@ -30,10 +37,11 @@ option(WITH_PYTHON "with(out) Python interface" ON)
 if(WITH_PYTHON)
   find_package(SWIG 2.0.12)
   find_package(PythonLibs)
-  if(SWIG_FOUND AND PythonLibs_FOUND)
+  find_package(PythonInterp)
+  if(SWIG_FOUND AND PythonLibs_FOUND AND PythonInterp_FOUND)
     include(${SWIG_USE_FILE})
     set(USE_PYTHON TRUE)
-  endif(SWIG_FOUND AND PythonLibs_FOUND)
+  endif(SWIG_FOUND AND PythonLibs_FOUND AND PythonInterp_FOUND)
 endif(WITH_PYTHON)
 
 # library
@@ -50,5 +58,35 @@ if(USE_PYTHON)
   swig_add_module(core python swig/core.i)
   set_property(TARGET ${SWIG_MODULE_core_REAL_NAME} PROPERTY
     CXX_STANDARD 11)
+  set_property(TARGET ${SWIG_MODULE_core_REAL_NAME} PROPERTY
+    LIBRARY_OUTPUT_DIRECTORY ${PROJECT})
   swig_link_libraries(core ${PYTHON_LIBRARIES} ${PROJECT}core)
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/swig/setup.py.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/setup.py.inc")
+  file(GENERATE
+    OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/setup.py"
+    INPUT "${CMAKE_CURRENT_BINARY_DIR}/setup.py.inc")
+  file(GENERATE
+    OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT}/__init__.py"
+    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/swig/__init__.py.in")
+endif(USE_PYTHON)
+
+# install destinations
+include(GNUInstallDirs)
+
+# install library
+install(TARGETS ${PROJECT}core
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+# install public header files
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+# install Python interface module
+if(USE_PYTHON)
+  install(CODE
+    "execute_process(COMMAND ${PYTHON_EXECUTABLE} -m pip install . \
+     ${PROJECT_PREFIX} \
+     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})")
 endif(USE_PYTHON)

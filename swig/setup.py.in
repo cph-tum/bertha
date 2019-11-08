@@ -1,0 +1,26 @@
+from setuptools import setup, dist
+from setuptools.command.install import install
+
+class BinaryDistribution(dist.Distribution):
+    def has_ext_modules(foo):
+        return True
+
+setup(
+    # package name
+    name = '${PROJECT}',
+
+    # package contents
+    packages = ['${PROJECT}'],
+
+    # make sure the shared library is included
+    package_data = {'${PROJECT}':
+                    ['$<TARGET_FILE_NAME:${SWIG_MODULE_core_REAL_NAME}>']},
+    include_package_data = True,
+    distclass = BinaryDistribution,
+
+    # package information
+    version = '${VERSION_MAJOR}.${VERSION_MINOR}',
+    url = '${PROJECT_URL}',
+    author = '${PROJECT_AUTHOR}',
+    author_email = '${PROJECT_EMAIL}'
+)
