@@ -32,18 +32,14 @@ if(WITH_PYTHON)
 endif(WITH_PYTHON)
 
 # library
-#include_directories(include/)
-
 add_library(bertha SHARED
   src/device.cpp)
-
 set_property(TARGET bertha PROPERTY CXX_STANDARD 11)
-
-target_include_directories(bertha PUBLIC include/)
+target_include_directories(bertha PUBLIC "include")
 
 # Python interface
 if(USE_PYTHON)
-  include_directories("include/" ${PYTHON_INCLUDE_PATH})
+  include_directories("include" ${PYTHON_INCLUDE_PATH})
   set_source_files_properties(swig/bertha.i PROPERTIES CPLUSPLUS ON)
   swig_add_module(pybertha python swig/bertha.i)
   set_property(TARGET ${SWIG_MODULE_pybertha_REAL_NAME} PROPERTY
