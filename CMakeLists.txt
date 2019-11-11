@@ -1,8 +1,13 @@
 cmake_minimum_required(VERSION 3.6)
-project(bertha)
 
+# project information
+set(PROJECT "bertha")
+set(PROJECT_AUTHOR "Michael Riesch")
+set(PROJECT_EMAIL "michael.riesch@tum.de")
+set(PROJECT_URL "https://www.gitlab.com/cph-tum/bertha")
 set(VERSION_MAJOR 1)
 set(VERSION_MINOR 0)
+project(${PROJECT})
 
 # CXX_STANDARD is required
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
@@ -32,17 +37,18 @@ if(WITH_PYTHON)
 endif(WITH_PYTHON)
 
 # library
-add_library(bertha SHARED
+add_library(${PROJECT}core SHARED
   src/device.cpp)
-set_property(TARGET bertha PROPERTY CXX_STANDARD 11)
-target_include_directories(bertha PUBLIC "include")
+set_property(TARGET ${PROJECT}core PROPERTY CXX_STANDARD 11)
+target_include_directories(${PROJECT}core PUBLIC "include")
 
 # Python interface
 if(USE_PYTHON)
   include_directories("include" ${PYTHON_INCLUDE_PATH})
-  set_source_files_properties(swig/bertha.i PROPERTIES CPLUSPLUS ON)
-  swig_add_module(pybertha python swig/bertha.i)
-  set_property(TARGET ${SWIG_MODULE_pybertha_REAL_NAME} PROPERTY
+  set_source_files_properties(swig/core.i PROPERTIES CPLUSPLUS ON)
+  set(CMAKE_SWIG_OUTDIR ${PROJECT})
+  swig_add_module(core python swig/core.i)
+  set_property(TARGET ${SWIG_MODULE_core_REAL_NAME} PROPERTY
     CXX_STANDARD 11)
-  swig_link_libraries(pybertha ${PYTHON_LIBRARIES} bertha)
+  swig_link_libraries(core ${PYTHON_LIBRARIES} ${PROJECT}core)
 endif(USE_PYTHON)

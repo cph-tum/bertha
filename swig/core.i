@@ -1,4 +1,4 @@
-%module pybertha
+%module core
 %{
 #include <bertha/device.hpp>
 %}
