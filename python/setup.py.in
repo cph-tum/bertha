@@ -36,7 +36,7 @@ setup(
     distclass = BinaryDistribution,
 
     # package information
-    version = '${VERSION_MAJOR}.${VERSION_MINOR}',
+    version = '${VERSION_CORE}',
     url = '${PROJECT_URL}',
     author = '${PROJECT_AUTHOR}',
     author_email = '${PROJECT_EMAIL}'

@@ -20,7 +20,10 @@ cmake_minimum_required(VERSION 3.6)
 # library
 add_library(${PROJECT}core SHARED
   src/device.cpp)
-set_property(TARGET ${PROJECT}core PROPERTY CXX_STANDARD 11)
+set_target_properties(${PROJECT}core PROPERTIES
+  CXX_STANDARD 11
+  VERSION ${VERSION_CORE}
+  SOVERSION ${VERSION_MAJOR})
 target_include_directories(${PROJECT}core PUBLIC "include")
 
 # Python interface
@@ -29,9 +32,10 @@ if(USE_PYTHON)
   set_source_files_properties(swig/core.i PROPERTIES CPLUSPLUS ON)
   set(CMAKE_SWIG_OUTDIR ${PYTHON_IFACE_PATH})
   swig_add_module(core python swig/core.i)
-  set_property(TARGET ${SWIG_MODULE_core_REAL_NAME} PROPERTY
-    CXX_STANDARD 11)
-  set_property(TARGET ${SWIG_MODULE_core_REAL_NAME} PROPERTY
+  set_target_properties(${SWIG_MODULE_core_REAL_NAME} PROPERTIES
+    CXX_STANDARD 11
+    VERSION ${VERSION_CORE}
+    SOVERSION ${VERSION_MAJOR}
     LIBRARY_OUTPUT_DIRECTORY ${PYTHON_IFACE_PATH})
   set(SWIG_MODULE_core_REAL_NAME ${SWIG_MODULE_core_REAL_NAME} PARENT_SCOPE)
   swig_link_libraries(core ${PYTHON_LIBRARIES} ${PROJECT}core)

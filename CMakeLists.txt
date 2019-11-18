@@ -24,7 +24,11 @@ set(PROJECT_EMAIL "michael.riesch@tum.de")
 set(PROJECT_URL "https://www.gitlab.com/cph-tum/bertha")
 set(VERSION_MAJOR 1)
 set(VERSION_MINOR 0)
-project(${PROJECT})
+set(VERSION_PATCH 0)
+set(VERSION_PRRLS "-rc1")
+set(VERSION_CORE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+set(VERSION_FULL "${VERSION_CORE}${VERSION_PRRLS}")
+project(${PROJECT} VERSION ${VERSION_CORE})
 
 # is install prefix set?
 set(PROJECT_PREFIX "")
