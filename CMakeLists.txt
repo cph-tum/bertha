@@ -16,6 +16,9 @@ if(DEFINED ENV{PREFIX})
   set(PROJECT_PREFIX "--prefix $ENV{PREFIX}")
 endif(DEFINED ENV{PREFIX})
 
+# require CMake GNUInstallDirs package
+include(GNUInstallDirs)
+
 # CXX_STANDARD is required
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
@@ -41,50 +44,23 @@ if(WITH_PYTHON)
   if(SWIG_FOUND AND PythonLibs_FOUND AND PythonInterp_FOUND)
     include(${SWIG_USE_FILE})
     set(USE_PYTHON TRUE)
+    set(PYTHON_IFACE_PATH "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT}")
   endif(SWIG_FOUND AND PythonLibs_FOUND AND PythonInterp_FOUND)
 endif(WITH_PYTHON)
 
-# library
-add_library(${PROJECT}core SHARED
-  src/device.cpp)
-set_property(TARGET ${PROJECT}core PROPERTY CXX_STANDARD 11)
-target_include_directories(${PROJECT}core PUBLIC "include")
+# add subdirectories
+add_subdirectory(core)
 
-# Python interface
+# install Python interface
 if(USE_PYTHON)
-  include_directories("include" ${PYTHON_INCLUDE_PATH})
-  set_source_files_properties(swig/core.i PROPERTIES CPLUSPLUS ON)
-  set(CMAKE_SWIG_OUTDIR ${PROJECT})
-  swig_add_module(core python swig/core.i)
-  set_property(TARGET ${SWIG_MODULE_core_REAL_NAME} PROPERTY
-    CXX_STANDARD 11)
-  set_property(TARGET ${SWIG_MODULE_core_REAL_NAME} PROPERTY
-    LIBRARY_OUTPUT_DIRECTORY ${PROJECT})
-  swig_link_libraries(core ${PYTHON_LIBRARIES} ${PROJECT}core)
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/swig/setup.py.in"
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/python/setup.py.in"
     "${CMAKE_CURRENT_BINARY_DIR}/setup.py.inc")
   file(GENERATE
     OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/setup.py"
     INPUT "${CMAKE_CURRENT_BINARY_DIR}/setup.py.inc")
   file(GENERATE
     OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT}/__init__.py"
-    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/swig/__init__.py.in")
-endif(USE_PYTHON)
-
-# install destinations
-include(GNUInstallDirs)
-
-# install library
-install(TARGETS ${PROJECT}core
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-# install public header files
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-# install Python interface module
-if(USE_PYTHON)
+    INPUT "${CMAKE_CURRENT_SOURCE_DIR}/python/__init__.py.in")
   install(CODE
     "execute_process(COMMAND ${PYTHON_EXECUTABLE} -m pip install . \
      ${PROJECT_PREFIX} \
