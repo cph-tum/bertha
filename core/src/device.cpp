@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-#include <bertha/device.hpp>
+#include <bertha/core/device.hpp>
 
 namespace bertha {
 

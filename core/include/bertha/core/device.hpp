@@ -16,13 +16,14 @@
  * limitations under the License.
  */
 
-#ifndef BERTHA_DEVICE_HPP
-#define BERTHA_DEVICE_HPP
+#ifndef BERTHA_CORE_DEVICE_HPP
+#define BERTHA_CORE_DEVICE_HPP
 
 namespace bertha {
 
 /**
  * Represents a certain device or setup.
+ * \ingroup CORE
  */
 class device
 {

@@ -16,21 +16,14 @@
  * limitations under the License.
  */
 
-%module core
-%{
-#include <bertha/core.hpp>
-%}
+#ifndef BERTHA_CORE_HPP
+#define BERTHA_CORE_HPP
 
-%include "stl.i"
-%include "std_except.i"
+/**
+ * \defgroup CORE core
+ * Provides base classes.
+ */
 
-%exception %{
-  try {
-    $action
-  } catch (const std::exception& e) {
-    SWIG_exception(SWIG_RuntimeError, e.what());
-  } catch(...) {
-  }
-%}
+#include <bertha/core/device.hpp>
 
-%include "../include/bertha/core/device.hpp"
+#endif
