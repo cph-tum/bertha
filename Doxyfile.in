@@ -1,0 +1,33 @@
+# project name
+PROJECT_NAME = "@PROJECT@ v@VERSION_FULL@"
+
+# input files
+
+INPUT = "@CMAKE_CURRENT_SOURCE_DIR@/README.md" \
+  "@CMAKE_CURRENT_SOURCE_DIR@/CHANGELOG.md" \
+  "@CMAKE_CURRENT_SOURCE_DIR@/NOTICE.md" \
+  "@CMAKE_CURRENT_SOURCE_DIR@/CONTRIBUTING.md" \
+  "@CMAKE_CURRENT_SOURCE_DIR@/docs/TUTORIAL.md" \
+  "@CMAKE_CURRENT_SOURCE_DIR@/core/include/"
+
+# main page
+
+USE_MDFILE_AS_MAINPAGE = "@CMAKE_CURRENT_SOURCE_DIR@/README.md"
+
+# strip source dir path from input files
+
+STRIP_FROM_PATH = "@CMAKE_CURRENT_SOURCE_DIR@"
+
+# recurse into folders
+
+RECURSIVE = YES
+
+# output settings
+
+DISABLE_INDEX = YES
+
+EXTRA_PACKAGES = amsmath
+
+GENERATE_TREEVIEW = YES
+
+USE_MATHJAX = YES

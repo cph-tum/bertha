@@ -55,6 +55,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 # specify components
+option(WITH_DOXYGEN "with(out) Doxygen documentation" ON)
 option(WITH_PYTHON "with(out) Python interface" ON)
 
 # Python interface dependencies available?
@@ -68,6 +69,19 @@ if(WITH_PYTHON)
     set(PYTHON_IFACE_PATH "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT}")
   endif(SWIG_FOUND AND PythonLibs_FOUND AND PythonInterp_FOUND)
 endif(WITH_PYTHON)
+
+# Doxygen documentation
+if(WITH_DOXYGEN)
+  find_package(Doxygen)
+  if(DOXYGEN_FOUND)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
+      ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+    add_custom_target(doc
+      ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      COMMENT "Generating API documentation with Doxygen" VERBATIM)
+  endif(DOXYGEN_FOUND)
+endif(WITH_DOXYGEN)
 
 # add subdirectories
 add_subdirectory(core)

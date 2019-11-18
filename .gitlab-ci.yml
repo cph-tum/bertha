@@ -21,3 +21,34 @@ build-debian:oldstable:
    - docker
    - linux
   <<: *build_definition_make
+
+build-doc:
+  image: cphtum/docker-bertha-debian:oldstable
+  tags:
+   - docker
+   - linux
+  stage: build
+  script:
+   - mkdir -p build
+   - cd build
+   - cmake -G "Unix Makefiles" ..
+   - make doc
+  artifacts:
+    paths:
+      - "build/"
+
+pages:
+  image: cphtum/docker-bertha-debian:oldstable
+  tags:
+   - docker
+   - linux
+  stage: deploy
+  dependencies:
+   - build-doc
+  script:
+   - mv build/html/ public/
+  artifacts:
+    paths:
+      - "public/"
+  only:
+   - master
