@@ -30,12 +30,10 @@ set(VERSION_CORE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 set(VERSION_FULL "${VERSION_CORE}${VERSION_PRRLS}")
 project(${PROJECT} VERSION ${VERSION_CORE})
 
-# is install prefix set?
-set(PROJECT_PREFIX "")
+# is python installation prefix set?
 if(DEFINED ENV{PREFIX})
-  set(CMAKE_INSTALL_PREFIX $ENV{PREFIX})
-  set(PROJECT_PREFIX "--prefix $ENV{PREFIX}")
-endif(DEFINED ENV{PREFIX})
+  set(PREFIX_SETUPPY "--prefix $ENV{PREFIX}")
+endif()
 
 # require CMake GNUInstallDirs package
 include(GNUInstallDirs)
@@ -120,7 +118,7 @@ if(USE_PYTHON)
     INPUT "${CMAKE_CURRENT_SOURCE_DIR}/python/__init__.py.in")
   install(CODE
     "execute_process(COMMAND ${PYTHON_EXECUTABLE} -m pip install . \
-     ${PROJECT_PREFIX} \
+     ${PREFIX_SETUPPY} \
      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})")
 endif(USE_PYTHON)
 
