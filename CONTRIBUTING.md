@@ -102,8 +102,8 @@ Please follow the rules below when contributing to the project.
          : m_many(many), m_arg(arg),
            m_here(here)
 
-  - Run `clang-format` (or the CMake target `format`) to format the code
-    automatically. It makes sense to integrate this tool into your editor.
+ - Run `clang-format` (or the CMake target `format`) to format the code
+   automatically. It makes sense to integrate this tool into your editor.
 
 ## Creating a release
 
