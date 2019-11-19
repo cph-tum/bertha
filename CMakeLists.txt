@@ -56,6 +56,7 @@ endif()
 
 # specify components
 option(WITH_DOXYGEN "with(out) Doxygen documentation" ON)
+option(WITH_FORMAT "with(out) clang-format support" ON)
 option(WITH_PYTHON "with(out) Python interface" ON)
 
 # Python interface dependencies available?
@@ -83,6 +84,15 @@ if(WITH_DOXYGEN)
   endif(DOXYGEN_FOUND)
 endif(WITH_DOXYGEN)
 
+# clang-format support
+if(WITH_FORMAT)
+  find_program(CLANG_FORMAT NAMES "clang-format" "clang-format-4.0"
+    "clang-format-5.0" "clang-format-6.0")
+  if(CLANG_FORMAT)
+    set(USE_FORMAT TRUE)
+  endif(CLANG_FORMAT)
+endif(WITH_FORMAT)
+
 # add subdirectories
 add_subdirectory(core)
 
@@ -101,3 +111,14 @@ if(USE_PYTHON)
      ${PROJECT_PREFIX} \
      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})")
 endif(USE_PYTHON)
+
+# get all source files
+get_target_property(CORE_SOURCE_FILES ${PROJECT}core SOURCES)
+list(APPEND ALL_SOURCE_FILES ${CORE_SOURCE_FILES})
+
+# code formatting check
+if(USE_FORMAT)
+  add_custom_target(format
+    COMMAND ${CLANG_FORMAT} -style=file -i ${ALL_SOURCE_FILES}
+    COMMENT "Formatting all source files")
+endif(USE_FORMAT)

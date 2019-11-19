@@ -19,7 +19,9 @@ cmake_minimum_required(VERSION 3.6)
 
 # library
 add_library(${PROJECT}core SHARED
-  src/device.cpp)
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/device.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/bertha/core.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/bertha/core/device.hpp)
 set_target_properties(${PROJECT}core PROPERTIES
   CXX_STANDARD 11
   VERSION ${VERSION_CORE}

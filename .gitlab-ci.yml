@@ -52,3 +52,25 @@ pages:
       - "public/"
   only:
    - master
+
+cpp-format:
+  image: cphtum/docker-bertha-debian:oldstable
+  tags:
+   - docker
+   - linux
+  stage: quality
+  dependencies:
+   - build-debian:oldstable
+  script:
+   - cd build
+   - make format
+   - cd ..
+   - git diff > build/format_check_revisionlist.txt &&
+     modified=`git diff | wc -l` &&
+     if [ "$modified" -gt "0" ]; then result=1; else result=0; fi &&
+     exit $result
+  artifacts:
+    when: on_failure
+    paths:
+      - "build/format_check_revisionlist.txt"
+  allow_failure: true

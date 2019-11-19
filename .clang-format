@@ -1,0 +1,12 @@
+---
+Language:        Cpp
+BasedOnStyle:    Mozilla
+
+# Basic Formatting
+AccessModifierOffset: -4
+ColumnLimit:     78
+ContinuationIndentWidth: 4
+IndentWidth:     4
+
+# Advanced Formatting
+BreakConstructorInitializersBeforeComma: false

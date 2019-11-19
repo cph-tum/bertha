@@ -94,7 +94,16 @@ Please follow the rules below when contributing to the project.
 
  - Use four spaces for indentation. No tabs.
 
- - Use C-style comments even for single lines (/* like this */)
+ - Use C-style comments even for single lines (/* like this */).
+
+ - The constructor initializers should look like
+
+       my_class(many, arg, here)
+         : m_many(many), m_arg(arg),
+           m_here(here)
+
+  - Run `clang-format` (or the CMake target `format`) to format the code
+    automatically. It makes sense to integrate this tool into your editor.
 
 ## Creating a release
 
