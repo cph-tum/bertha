@@ -16,6 +16,8 @@
  * limitations under the License.
  */
 
+#include <stdexcept>
+
 #include <bertha/core/device.hpp>
 
 namespace bertha {
@@ -23,9 +25,12 @@ namespace bertha {
 device::device(double x_start, double x_end)
   : m_x_start(x_start), m_x_end(x_end)
 {
+    if (x_start > x_end) {
+        throw std::invalid_argument("Device has negative length!");
+    }
 }
 
-device::device(double length) : m_x_start(0.0), m_x_end(length)
+device::device(double length) : device::device(0.0, length)
 {
 }
 

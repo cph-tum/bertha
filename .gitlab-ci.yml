@@ -1,19 +1,28 @@
 stages:
  - build
  - test
- - deploy
  - quality
+ - deploy
 
 .build_template_make: &build_definition_make
   stage: build
   script:
-    - mkdir -p build
-    - cd build
-    - cmake -G "Unix Makefiles" ..
-    - make -j 4
+   - mkdir -p build
+   - cd build
+   - cmake -G "Unix Makefiles" -DWITH_TESTS=ON ..
+   - make -j 4
   artifacts:
     paths:
-      - "build/"
+     - "build/"
+
+.test_template_make: &test_definition_make
+  stage: test
+  script:
+   - cd build
+   - make test
+  artifacts:
+    paths:
+     - "build/"
 
 build-debian:oldstable:
   image: cphtum/docker-bertha-debian:oldstable
@@ -35,23 +44,31 @@ build-doc:
    - make doc
   artifacts:
     paths:
-      - "build/"
+     - "build/"
 
-pages:
+test-debian:oldstable:
   image: cphtum/docker-bertha-debian:oldstable
   tags:
    - docker
    - linux
-  stage: deploy
   dependencies:
-   - build-doc
+   - build-debian:oldstable
+  <<: *test_definition_make
+
+coverage:
+  image: cphtum/docker-bertha-debian:oldstable
+  tags:
+   - docker
+   - linux
+  stage: quality
+  dependencies:
+   - test-debian:oldstable
   script:
-   - mv build/html/ public/
+   - cd build
+   - python3 -m gcovr -r .. --html-details > coverage.html
   artifacts:
     paths:
-      - "public/"
-  only:
-   - master
+     - "build/coverage.html"
 
 cpp-format:
   image: cphtum/docker-bertha-debian:oldstable
@@ -72,5 +89,23 @@ cpp-format:
   artifacts:
     when: on_failure
     paths:
-      - "build/format_check_revisionlist.txt"
+     - "build/format_check_revisionlist.txt"
   allow_failure: true
+
+pages:
+  image: cphtum/docker-bertha-debian:oldstable
+  tags:
+   - docker
+   - linux
+  stage: deploy
+  dependencies:
+   - build-doc
+   - coverage
+  script:
+   - mv build/html/ public/
+   - mv build/coverage.html public/
+  artifacts:
+    paths:
+     - "public/"
+  only:
+   - master

@@ -58,6 +58,7 @@ endif()
 option(WITH_DOXYGEN "with(out) Doxygen documentation" ON)
 option(WITH_FORMAT "with(out) clang-format support" ON)
 option(WITH_PYTHON "with(out) Python interface" ON)
+option(WITH_TESTS "with(out) Catch2 unit tests" OFF)
 
 # Python interface dependencies available?
 if(WITH_PYTHON)
@@ -92,6 +93,17 @@ if(WITH_FORMAT)
     set(USE_FORMAT TRUE)
   endif(CLANG_FORMAT)
 endif(WITH_FORMAT)
+
+# Catch2 unit tests
+if(WITH_TESTS)
+  find_package(Catch2)
+  if(Catch2_FOUND)
+    set(USE_TESTS TRUE)
+    include(CTest)
+    include(Catch)
+    enable_testing()
+  endif(Catch2_FOUND)
+endif(WITH_TESTS)
 
 # add subdirectories
 add_subdirectory(core)

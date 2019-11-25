@@ -27,6 +27,11 @@ set_target_properties(${PROJECT}core PROPERTIES
   VERSION ${VERSION_CORE}
   SOVERSION ${VERSION_MAJOR})
 target_include_directories(${PROJECT}core PUBLIC "include")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  target_compile_options(${PROJECT}core PRIVATE -fprofile-arcs
+    -ftest-coverage)
+  target_link_libraries(${PROJECT}core -lgcov)
+endif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 
 # Python interface
 if(USE_PYTHON)
@@ -42,6 +47,15 @@ if(USE_PYTHON)
   set(SWIG_MODULE_core_REAL_NAME ${SWIG_MODULE_core_REAL_NAME} PARENT_SCOPE)
   swig_link_libraries(core ${PYTHON_LIBRARIES} ${PROJECT}core)
 endif(USE_PYTHON)
+
+# Catch2 unit tests
+if(USE_TESTS)
+  add_executable(${PROJECT}coretest tests/main.cpp)
+  target_include_directories(${PROJECT}coretest PRIVATE "include")
+  target_link_libraries(${PROJECT}coretest Catch2::Catch2 ${PROJECT}core)
+  set_target_properties(${PROJECT}coretest PROPERTIES CXX_STANDARD 11)
+  catch_discover_tests(${PROJECT}coretest)
+endif(USE_TESTS)
 
 # install library
 install(TARGETS ${PROJECT}core
