@@ -41,8 +41,6 @@ if(USE_PYTHON)
   swig_add_module(core python swig/core.i)
   set_target_properties(${SWIG_MODULE_core_REAL_NAME} PROPERTIES
     CXX_STANDARD 11
-    VERSION ${VERSION_CORE}
-    SOVERSION ${VERSION_MAJOR}
     LIBRARY_OUTPUT_DIRECTORY ${PYTHON_IFACE_PATH})
   set(SWIG_MODULE_core_REAL_NAME ${SWIG_MODULE_core_REAL_NAME} PARENT_SCOPE)
   target_link_libraries(${SWIG_MODULE_core_REAL_NAME} PRIVATE
