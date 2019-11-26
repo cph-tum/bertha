@@ -63,6 +63,11 @@ The Doxygen documentation can be build with
 
     $ make doc
 
+and the unit tests can be executed (assuming that CMake has been run with
+`-DWITH_TESTS`) using
+
+    $ make test
+
 ### Windows with MinGW (recommended)
 
 Using the MinGW environment, the build under Windows is quite similar:
@@ -98,11 +103,13 @@ The following software packages are required to build the project:
  - Python >= 2.7
  - swig >= 2.0.12
 
-Additionally, the following components are required for format checks,
-documentaton generation, etc.:
+Additionally, the following components are required for unit tests, format
+checks, documentaton generation, etc.:
 
+ - Catch2 (any recent version)
  - clang-format (any recent version)
  - Doxygen (any recent version)
+ - gcovr (any recent version)
 
 ## Contributing to bertha
 
