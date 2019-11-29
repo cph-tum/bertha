@@ -45,7 +45,16 @@ if(USE_PYTHON)
     SOVERSION ${VERSION_MAJOR}
     LIBRARY_OUTPUT_DIRECTORY ${PYTHON_IFACE_PATH})
   set(SWIG_MODULE_core_REAL_NAME ${SWIG_MODULE_core_REAL_NAME} PARENT_SCOPE)
-  swig_link_libraries(core ${PYTHON_LIBRARIES} ${PROJECT}core)
+  target_link_libraries(${SWIG_MODULE_core_REAL_NAME} PRIVATE
+    ${PROJECT}core)
+  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND APPLE)
+    target_link_libraries(${SWIG_MODULE_core_REAL_NAME} PRIVATE
+      "-undefined dynamic_lookup")
+  endif()
+  if(WIN32)
+    target_link_libraries(${SWIG_MODULE_core_REAL_NAME} PRIVATE
+      ${PYTHON_LIBRARIES})
+  endif()
 endif(USE_PYTHON)
 
 # Catch2 unit tests
