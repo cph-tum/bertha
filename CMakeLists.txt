@@ -41,6 +41,9 @@ include(GNUInstallDirs)
 # CXX_STANDARD is required
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
+# export shared library symbols on Windows
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 # set a default build type if none was specified
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message(STATUS "Setting build type to 'RelWithDebInfo' as none was "
