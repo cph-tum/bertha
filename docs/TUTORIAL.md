@@ -69,3 +69,9 @@ project skeleton to your software project.
 
  - Adapt `TUTORIAL.md` and explain what should the user know at the
    beginning. Give starting points, consider adding code examples.
+
+ - Create a recipe for your project in conda-forge. See the [conda-forge
+   documentation](https://conda-forge.org/docs/maintainer/adding_pkgs.html)
+   for a tutorial how to accomplish that. The recipe created for bertha
+   itself may serve as reference as well. Currently, this recipe is available
+   [here](https://github.com/conda-forge/staged-recipes/pull/10097).
