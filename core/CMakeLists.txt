@@ -35,7 +35,7 @@ endif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 
 # Python interface
 if(USE_PYTHON)
-  include_directories("include" ${PYTHON_INCLUDE_PATH})
+  include_directories("include" ${PYTHON_INCLUDE_DIRS})
   set_source_files_properties(swig/core.i PROPERTIES CPLUSPLUS ON)
   set(CMAKE_SWIG_OUTDIR ${PYTHON_IFACE_PATH})
   swig_add_module(core python swig/core.i)
