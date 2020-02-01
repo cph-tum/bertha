@@ -1,0 +1,103 @@
+notifications:
+  email: false
+
+language: cpp
+
+jobs:
+  include:
+   - os: linux
+     dist: bionic
+     addons:
+       apt:
+         packages:
+          - ca-certificates
+          - cmake
+          - clang-format
+          - doxygen
+          - g++
+          - git
+          - gcovr
+          - graphviz
+          - lcov
+          - make
+          - python3-dev
+          - python3-pip
+          - python3-setuptools
+          - swig
+          - unzip
+          - wget
+          - zlib1g-dev
+         update: true
+     install:
+      - sudo python -m pip install coverxygen
+      - git clone https://github.com/catchorg/Catch2.git && cd Catch2 &&
+          cmake -Bbuild -H. -DBUILD_TESTING=OFF &&
+          sudo cmake --build build/ --target install && cd ..
+     script:
+      - mkdir -p build
+      - cd build
+      - cmake -DWITH_TESTS=ON ..
+      - cmake --build .
+      - cmake --build . --target doc
+      - sudo cmake --build . --target install
+      - ctest
+      - cd ..
+      - python -c "import bertha.core as b; d = b.device(1, 2); d.get_length()"
+     deploy:
+       provider: pages
+       skip_cleanup: true
+       local_dir: build/html
+       github_token: $GITHUB_TOKEN
+       keep_history: true
+       on:
+         branch: master
+         tags: true
+   - os: osx
+     osx_image: xcode11.3
+     addons:
+       homebrew:
+         packages:
+          - catch2
+          - cmake
+          - clang-format
+          - doxygen
+          - gcovr
+          - git
+          - lcov
+          - make
+          - python
+          - swig
+     script:
+      - mkdir -p build
+      - cd build
+      - cmake -DWITH_TESTS=ON ..
+      - cmake --build .
+      - cmake --build . --target doc
+      - sudo cmake --build . --target install
+      - ctest
+      - cd ..
+      - python -c "import bertha.core as b; d = b.device(1, 2); d.get_length()"
+   - os: windows
+     env:
+      - LIBRARY_PREFIX="C:/Tools/miniconda3/envs/bertha/Library"
+     install:
+      - choco install openssl.light
+      - choco install miniconda3
+      - export PATH="/c/Tools/miniconda3:/c/Tools/miniconda3/Scripts:$PATH"
+      - conda create -y -n bertha
+      - source activate bertha
+      - conda install -y -c conda-forge catch2 cmake doxygen gcovr swig
+      - python -m pip install coverxygen
+     script:
+      - mkdir -p build
+      - cd build
+      - cmake -G "Visual Studio 15 2017" -A x64
+          -DCMAKE_PREFIX_PATH="${LIBRARY_PREFIX}"
+          -DCMAKE_INSTALL_PREFIX="${LIBRARY_PREFIX}"
+          -DCMAKE_BUILD_TYPE=Release -DWITH_TESTS=ON ..
+      - cmake --build . --config Release
+      - cp bertha/Release/_core.pyd bertha
+      - cmake --build . --config Release --target install
+      - ctest
+      - cd ..
+      - python -c "import bertha.core as b; d = b.device(1, 2); d.get_length()"
