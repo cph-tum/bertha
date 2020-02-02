@@ -43,6 +43,9 @@ project skeleton to your software project.
  - Adapt the `CODE_OF_CONDUCT.md` file as desired. Make sure to insert the
    contact information of the project team or maintainer.
 
+ - Adapt the templates for issues and pull/merge requests for GitHub (in
+   .github/) and GitLab (in .gitlab/) as desired.
+
  - Set up the distribution via conda.
 
 ## Implementation stage
