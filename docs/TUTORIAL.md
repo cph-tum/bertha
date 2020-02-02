@@ -40,6 +40,9 @@ project skeleton to your software project.
    do so, you will have to select an appropriate license for your project.
    Adapt the `LICENSE` file accordingly.
 
+ - Adapt the `CODE_OF_CONDUCT.md` file as desired. Make sure to insert the
+   contact information of the project team or maintainer.
+
  - Set up the distribution via conda.
 
 ## Implementation stage
