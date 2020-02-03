@@ -46,6 +46,10 @@ project skeleton to your software project.
  - Adapt the templates for issues and pull/merge requests for GitHub (in
    .github/) and GitLab (in .gitlab/) as desired.
 
+ - Update the URLs of the badges in `README.md`. Note that you have to
+   enable [test coverage parsing](https://docs.gitlab.com/ee/user/project/pipelines/settings.html#test-coverage-parsing) in GitLab in order to enable the
+   coverage badge.
+
  - Set up the distribution via conda.
 
 ## Implementation stage

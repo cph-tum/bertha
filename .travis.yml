@@ -15,8 +15,8 @@ jobs:
           - clang-format
           - doxygen
           - g++
-          - git
           - gcovr
+          - git
           - graphviz
           - lcov
           - make
@@ -41,6 +41,7 @@ jobs:
       - cmake --build . --target doc
       - sudo cmake --build . --target install
       - ctest
+      - gcovr -r ..
       - cd ..
       - python -c "import bertha.core as b; d = b.device(1, 2); d.get_length()"
      deploy:
@@ -59,11 +60,8 @@ jobs:
          packages:
           - catch2
           - cmake
-          - clang-format
           - doxygen
-          - gcovr
           - git
-          - lcov
           - make
           - python
           - swig
@@ -86,8 +84,7 @@ jobs:
       - export PATH="/c/Tools/miniconda3:/c/Tools/miniconda3/Scripts:$PATH"
       - conda create -y -n bertha
       - source activate bertha
-      - conda install -y -c conda-forge catch2 cmake doxygen gcovr swig
-      - python -m pip install coverxygen
+      - conda install -y -c conda-forge catch2 cmake doxygen swig
      script:
       - mkdir -p build
       - cd build

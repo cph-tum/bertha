@@ -66,6 +66,7 @@ coverage:
   script:
    - cd build
    - python3 -m gcovr -r .. --html-details > coverage.html
+   - python3 -m gcovr -r ..
   artifacts:
     paths:
      - "build/coverage.html"

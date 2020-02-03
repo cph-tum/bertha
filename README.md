@@ -17,6 +17,17 @@ practices:
  - Automatic documentation generation using Doxygen
  - Automatic code formatting checks using clang-format
 
+<!-- GitHub badges -->
+[![Build Status](https://travis-ci.org/cph-tum/bertha.svg?branch=master)](https://travis-ci.org/cph-tum/bertha)
+[![Documentation](https://img.shields.io/badge/Documentation-GitHub%20Pages-informational)](https://cph-tum.github.io/bertha)
+[![First Steps](https://img.shields.io/badge/First%20steps-Tutorial-important)](https://cph-tum.github.io/bertha/md_docs_TUTORIAL.html)
+
+<!-- GitLab badges -->
+[![Pipeline](https://gitlab.com/cph-tum/bertha/badges/master/pipeline.svg)](https://gitlab.com/cph-tum/bertha/pipelines/master/latest)
+[![Coverage](https://gitlab.com/cph-tum/bertha/badges/master/coverage.svg)](https://gitlab.com/cph-tum/bertha/-/jobs/artifacts/master/file/build/coverage.html?job=coverage)
+[![Documentation](https://img.shields.io/badge/Documentation-GitLab%20Pages-informational)](https://cph-tum.gitlab.io/bertha)
+[![First Steps](https://img.shields.io/badge/First%20steps-Tutorial-important)](https://cph-tum.gitlab.io/bertha/md_docs_TUTORIAL.html)
+
 ## Install via conda
 
 If you have a conda distribution installed, you can install bertha using
