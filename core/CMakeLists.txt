@@ -27,11 +27,13 @@ set_target_properties(${PROJECT}core PROPERTIES
   VERSION ${VERSION_CORE}
   SOVERSION ${VERSION_MAJOR})
 target_include_directories(${PROJECT}core PUBLIC "include")
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  target_compile_options(${PROJECT}core PRIVATE -fprofile-arcs
-    -ftest-coverage)
-  target_link_libraries(${PROJECT}core -lgcov)
-endif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+if(USE_TESTS)
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(${PROJECT}core PRIVATE -fprofile-arcs
+      -ftest-coverage)
+    target_link_libraries(${PROJECT}core -lgcov)
+  endif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+endif()
 
 # Python interface
 if(USE_PYTHON)
