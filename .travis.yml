@@ -96,7 +96,6 @@ jobs:
           -DCMAKE_INSTALL_PREFIX="${LIBRARY_PREFIX}"
           -DCMAKE_BUILD_TYPE=Release -DWITH_TESTS=ON ..
       - cmake --build . --config Release
-      - cp bertha/Release/_core.pyd bertha
       - cmake --build . --config Release --target install
       - ctest
       - cd ..
