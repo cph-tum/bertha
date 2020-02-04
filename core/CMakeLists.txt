@@ -26,7 +26,9 @@ set_target_properties(${PROJECT}core PROPERTIES
   CXX_STANDARD 11
   VERSION ${VERSION_CORE}
   SOVERSION ${VERSION_MAJOR})
-target_include_directories(${PROJECT}core PUBLIC "include")
+target_include_directories(${PROJECT}core PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
 if(USE_TESTS)
   if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(${PROJECT}core PRIVATE -fprofile-arcs
@@ -37,7 +39,7 @@ endif()
 
 # Python interface
 if(USE_PYTHON)
-  include_directories("include" ${PYTHON_INCLUDE_DIRS})
+  include_directories(${PYTHON_INCLUDE_DIRS})
   set_source_files_properties(swig/core.i PROPERTIES CPLUSPLUS ON)
   set(CMAKE_SWIG_OUTDIR ${PYTHON_IFACE_PATH})
   swig_add_module(core python swig/core.i)
@@ -66,17 +68,23 @@ endif(USE_PYTHON)
 # Catch2 unit tests
 if(USE_TESTS)
   add_executable(${PROJECT}coretest tests/main.cpp)
-  target_include_directories(${PROJECT}coretest PRIVATE "include")
-  target_link_libraries(${PROJECT}coretest Catch2::Catch2 ${PROJECT}core)
+  target_link_libraries(${PROJECT}coretest
+    PRIVATE Catch2::Catch2 ${PROJECT}core)
   set_target_properties(${PROJECT}coretest PROPERTIES CXX_STANDARD 11)
   catch_discover_tests(${PROJECT}coretest)
 endif(USE_TESTS)
 
 # install library
 install(TARGETS ${PROJECT}core
+  EXPORT ${PROJECT}-core-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+# install CMake targets
+install(EXPORT ${PROJECT}-core-targets
+  NAMESPACE ${PROJECT}::
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT})
 
 # install public header files
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
