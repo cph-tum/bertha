@@ -24,9 +24,6 @@ jobs:
           - python3-pip
           - python3-setuptools
           - swig
-          - unzip
-          - wget
-          - zlib1g-dev
          update: true
      install:
       - sudo python -m pip install coverxygen
@@ -44,6 +41,8 @@ jobs:
       - gcovr -r ..
       - cd ..
       - python -c "import bertha.core as b; d = b.device(1, 2); d.get_length()"
+      - git diff
+      - if [ `git diff | wc -l` -gt "0" ]; then false; fi
      deploy:
        provider: pages
        skip_cleanup: true

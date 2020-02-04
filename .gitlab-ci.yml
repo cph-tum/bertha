@@ -6,87 +6,88 @@ stages:
 
 .build_template_make: &build_definition_make
   stage: build
+  before_script:
+   - apt update && apt install --no-install-recommends -y ca-certificates
+       cmake clang-format-6.0 doxygen g++ gcovr git graphviz lcov make
+       python3-dev python3-pip python3-setuptools python3-wheel swig
+   - python3 -m pip install coverxygen
+   - git clone https://github.com/catchorg/Catch2.git && cd Catch2 &&
+       cmake -Bbuild -H. -DBUILD_TESTING=OFF &&
+       cmake --build build/ --target install && cd ..
   script:
    - mkdir -p build
    - cd build
    - cmake -G "Unix Makefiles" -DWITH_TESTS=ON ..
    - make -j 4
+   - make doc
   artifacts:
     paths:
      - "build/"
 
 .test_template_make: &test_definition_make
   stage: test
+  before_script:
+   - apt update && apt install --no-install-recommends -y cmake g++ python3
   script:
    - cd build
-   - make test
+   - ctest
   artifacts:
     paths:
      - "build/"
 
-build-debian:oldstable:
-  image: cphtum/docker-bertha-debian:oldstable
+build-ubuntu-18.04:
+  image: ubuntu:18.04
   tags:
    - docker
    - linux
   <<: *build_definition_make
 
-build-doc:
-  image: cphtum/docker-bertha-debian:oldstable
-  tags:
-   - docker
-   - linux
-  stage: build
-  script:
-   - mkdir -p build
-   - cd build
-   - cmake -G "Unix Makefiles" ..
-   - make doc
-  artifacts:
-    paths:
-     - "build/"
-
-test-debian:oldstable:
-  image: cphtum/docker-bertha-debian:oldstable
+test-ubuntu-18.04:
+  image: ubuntu:18.04
   tags:
    - docker
    - linux
   dependencies:
-   - build-debian:oldstable
+   - build-ubuntu-18.04
   <<: *test_definition_make
 
 coverage:
-  image: cphtum/docker-bertha-debian:oldstable
+  image: ubuntu:18.04
   tags:
    - docker
    - linux
-  stage: quality
   dependencies:
-   - test-debian:oldstable
+   - test-ubuntu-18.04
+  stage: quality
+  before_script:
+   - apt update && apt install --no-install-recommends -y
+       cmake gcovr git lcov make
   script:
    - cd build
-   - python3 -m gcovr -r .. --html-details > coverage.html
-   - python3 -m gcovr -r ..
+   - gcovr -r .. --html-details > coverage.html
+   - gcovr -r ..
   artifacts:
     paths:
      - "build/coverage.html"
 
 cpp-format:
-  image: cphtum/docker-bertha-debian:oldstable
+  image: ubuntu:18.04
   tags:
    - docker
    - linux
   stage: quality
-  dependencies:
-   - build-debian:oldstable
+  before_script:
+   - apt update && apt install --no-install-recommends -y
+       cmake clang-format-6.0 g++ git make
   script:
+   - mkdir -p build
    - cd build
+   - cmake  -G "Unix Makefiles" -DWITH_PYTHON=OFF -DWITH_DOXYGEN=OFF
+       -DWITH_TESTS=OFF ..
    - make format
    - cd ..
-   - git diff > build/format_check_revisionlist.txt &&
-     modified=`git diff | wc -l` &&
-     if [ "$modified" -gt "0" ]; then result=1; else result=0; fi &&
-     exit $result
+   - git diff > build/format_check_revisionlist.txt
+   - if [ `git diff | wc -l` -gt "0" ]; then false; fi
   artifacts:
     when: on_failure
     paths:
@@ -94,13 +95,13 @@ cpp-format:
   allow_failure: true
 
 pages:
-  image: cphtum/docker-bertha-debian:oldstable
+  image: ubuntu:18.04
   tags:
    - docker
    - linux
   stage: deploy
   dependencies:
-   - build-doc
+   - build-ubuntu-18.04
    - coverage
   script:
    - mv build/html/ public/
