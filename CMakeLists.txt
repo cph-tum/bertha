@@ -88,8 +88,7 @@ endif(WITH_DOXYGEN)
 
 # clang-format support
 if(WITH_FORMAT)
-  find_program(CLANG_FORMAT NAMES "clang-format" "clang-format-4.0"
-    "clang-format-5.0" "clang-format-6.0")
+  find_program(CLANG_FORMAT NAMES "clang-format" "clang-format-6.0")
   if(CLANG_FORMAT)
     set(USE_FORMAT TRUE)
   endif(CLANG_FORMAT)

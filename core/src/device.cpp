@@ -30,13 +30,9 @@ device::device(double x_start, double x_end)
     }
 }
 
-device::device(double length) : device::device(0.0, length)
-{
-}
+device::device(double length) : device::device(0.0, length) {}
 
-device::~device()
-{
-}
+device::~device() {}
 
 double
 device::get_length() const

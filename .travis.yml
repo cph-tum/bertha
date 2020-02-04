@@ -12,7 +12,7 @@ jobs:
          packages:
           - ca-certificates
           - cmake
-          - clang-format
+          - clang-format-6.0
           - doxygen
           - g++
           - gcovr
