@@ -130,12 +130,13 @@ project web page. Any contributions are welcome.
 If you found the code helpful and used it in your research, you can cite
 the following paper:
 
-M. Riesch and C. Jirauschek, "bertha: Project skeleton for scientific
-software.", *In preparation*, (2019).
+Riesch, Michael and Nguyen, Tien Dat and Jirauschek, Christian,
+"bertha: Project skeleton for scientific software.",
+[arXiv:1912.01640](https://arxiv.org/abs/1912.01640), (2019).
 
 If desired, you can cite the project web page directly:
 
-M. Riesch and C. Jirauschek, "bertha: Project skeleton for scientific
-software.",
+Riesch, Michael and Jirauschek, Christian, "bertha: Project skeleton for
+scientific software (C++ with Python interface)",
 [https://gitlab.com/cph-tum/bertha](https://gitlab.com/cph-tum/bertha)
 [Online], (2019).
