@@ -30,8 +30,7 @@ setup(
     packages = ['${PROJECT}'],
 
     # make sure the shared library is included
-    package_data = {'${PROJECT}':
-                    ['$<TARGET_FILE_NAME:${SWIG_MODULE_core_REAL_NAME}>']},
+    package_data = {'${PROJECT}': [ ${PYTHON_MOD_STRING} ]},
     include_package_data = True,
     distclass = BinaryDistribution,
 

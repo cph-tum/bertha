@@ -73,6 +73,7 @@ if(WITH_PYTHON)
     include(${SWIG_USE_FILE})
     set(USE_PYTHON TRUE)
     set(PYTHON_IFACE_PATH "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT}")
+    set(PYTHON_MOD_STRING "")
   endif(SWIG_FOUND AND PythonLibs_FOUND AND PythonInterp_FOUND)
 endif(WITH_PYTHON)
 
