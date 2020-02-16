@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.9)
 
 # project information
 set(PROJECT "bertha")
@@ -70,6 +70,12 @@ if(WITH_PYTHON)
   find_package(PythonInterp)
   find_package(PythonLibs)
   if(SWIG_FOUND AND PythonLibs_FOUND AND PythonInterp_FOUND)
+    if(POLICY CMP0078)
+      cmake_policy(SET CMP0078 OLD)
+    endif()
+    if(POLICY CMP0086)
+      cmake_policy(SET CMP0086 OLD)
+    endif()
     include(${SWIG_USE_FILE})
     set(USE_PYTHON TRUE)
     set(PYTHON_IFACE_PATH "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT}")

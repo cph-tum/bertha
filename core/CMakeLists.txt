@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.9)
 
 # library
 add_library(${PROJECT}core SHARED
@@ -39,15 +39,18 @@ endif()
 
 # Python interface
 if(USE_PYTHON)
-  include_directories(${PYTHON_INCLUDE_DIRS})
-  set_source_files_properties(swig/core.i PROPERTIES CPLUSPLUS ON)
+  set_property(SOURCE swig/core.i PROPERTY CPLUSPLUS ON)
   set(CMAKE_SWIG_OUTDIR ${PYTHON_IFACE_PATH})
-  swig_add_module(core python swig/core.i)
+  swig_add_library(core
+    LANGUAGE python
+    SOURCES swig/core.i)
   set_target_properties(${SWIG_MODULE_core_REAL_NAME} PROPERTIES
     CXX_STANDARD 11
     ARCHIVE_OUTPUT_DIRECTORY $<1:${PYTHON_IFACE_PATH}>
     LIBRARY_OUTPUT_DIRECTORY $<1:${PYTHON_IFACE_PATH}>
     RUNTIME_OUTPUT_DIRECTORY $<1:${PYTHON_IFACE_PATH}>)
+  target_include_directories(${SWIG_MODULE_core_REAL_NAME} PRIVATE
+    ${PYTHON_INCLUDE_DIRS})
   target_link_libraries(${SWIG_MODULE_core_REAL_NAME} PRIVATE
     ${PROJECT}core)
   if(APPLE)

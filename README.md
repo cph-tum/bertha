@@ -109,7 +109,7 @@ directory. The build type can be set directly in Visual Studio.
 
 The following software packages are required to build the project:
 
- - CMake >= 3.6
+ - CMake >= 3.9
  - C++ compiler (any recent version supporting C++11)
  - Python >= 2.7
  - swig >= 2.0.12
