@@ -80,8 +80,8 @@ if(WITH_PYTHON)
     set(USE_PYTHON TRUE)
     set(PYTHON_IFACE_PATH "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT}")
     set(PYTHON_MOD_STRING "")
-  endif(SWIG_FOUND AND PythonLibs_FOUND AND PythonInterp_FOUND)
-endif(WITH_PYTHON)
+  endif()
+endif()
 
 # Doxygen documentation
 if(WITH_DOXYGEN)
@@ -93,16 +93,16 @@ if(WITH_DOXYGEN)
       ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
       COMMENT "Generating API documentation with Doxygen" VERBATIM)
-  endif(DOXYGEN_FOUND)
-endif(WITH_DOXYGEN)
+  endif()
+endif()
 
 # clang-format support
 if(WITH_FORMAT)
   find_program(CLANG_FORMAT NAMES "clang-format" "clang-format-6.0")
   if(CLANG_FORMAT)
     set(USE_FORMAT TRUE)
-  endif(CLANG_FORMAT)
-endif(WITH_FORMAT)
+  endif()
+endif()
 
 # Catch2 unit tests
 if(WITH_TESTS)
@@ -112,8 +112,8 @@ if(WITH_TESTS)
     include(CTest)
     include(Catch)
     enable_testing()
-  endif(Catch2_FOUND)
-endif(WITH_TESTS)
+  endif()
+endif()
 
 # add subdirectories
 add_subdirectory(core)
@@ -132,7 +132,7 @@ if(USE_PYTHON)
     "execute_process(COMMAND ${PYTHON_EXECUTABLE} -m pip install . \
      ${PREFIX_SETUPPY} \
      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})")
-endif(USE_PYTHON)
+endif()
 
 # install CMake configuration files
 configure_package_config_file(
@@ -157,4 +157,4 @@ if(USE_FORMAT)
   add_custom_target(format
     COMMAND ${CLANG_FORMAT} -style=file -i ${ALL_SOURCE_FILES}
     COMMENT "Formatting all source files")
-endif(USE_FORMAT)
+endif()

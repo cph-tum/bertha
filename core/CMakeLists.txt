@@ -34,7 +34,7 @@ if(USE_TESTS)
     target_compile_options(${PROJECT}core PRIVATE -fprofile-arcs
       -ftest-coverage)
     target_link_libraries(${PROJECT}core -lgcov)
-  endif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  endif()
 endif()
 
 # Python interface
@@ -67,7 +67,7 @@ if(USE_PYTHON)
     "${PYTHON_MOD_STRING}
             '$<TARGET_FILE_NAME:${SWIG_MODULE_core_REAL_NAME}>',"
     PARENT_SCOPE)
-endif(USE_PYTHON)
+endif()
 
 # Catch2 unit tests
 if(USE_TESTS)
@@ -76,7 +76,7 @@ if(USE_TESTS)
     PRIVATE Catch2::Catch2 ${PROJECT}core)
   set_target_properties(${PROJECT}coretest PROPERTIES CXX_STANDARD 11)
   catch_discover_tests(${PROJECT}coretest)
-endif(USE_TESTS)
+endif()
 
 # install library
 install(TARGETS ${PROJECT}core
