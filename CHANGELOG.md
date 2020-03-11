@@ -7,6 +7,19 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2020-03-12
+
+This release introduces support for GitHub and revises the existing code
+base.
+
+### Added
+ - Support for GitHub (configuration for Travis CI, issue and PR templates)
+ - Support for CMake target exports
+ - Code of conduct
+
+### Changed
+ - Revised CMake build structure (SWIG support, cleanup)
+
 ## [1.0.0] - 2019-11-30
 
 This is the first stable release that incorporates basic functionality.

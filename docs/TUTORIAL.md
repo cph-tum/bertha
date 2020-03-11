@@ -50,8 +50,6 @@ project skeleton to your software project.
    enable [test coverage parsing](https://docs.gitlab.com/ee/user/project/pipelines/settings.html#test-coverage-parsing) in GitLab in order to enable the
    coverage badge.
 
- - Set up the distribution via conda.
-
 ## Implementation stage
 
  - Think about the goal of your software project and a modular design that
@@ -83,5 +81,5 @@ project skeleton to your software project.
  - Create a recipe for your project in conda-forge. See the [conda-forge
    documentation](https://conda-forge.org/docs/maintainer/adding_pkgs.html)
    for a tutorial how to accomplish that. The recipe created for bertha
-   itself may serve as reference as well. Currently, this recipe is available
-   [here](https://github.com/conda-forge/staged-recipes/pull/10097).
+   itself (available [here](https://github.com/conda-forge/bertha-feedstock))
+   may serve as reference.

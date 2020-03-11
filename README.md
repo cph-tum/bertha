@@ -28,6 +28,11 @@ practices:
 [![Documentation](https://img.shields.io/badge/Documentation-GitLab%20Pages-informational)](https://cph-tum.gitlab.io/bertha)
 [![First Steps](https://img.shields.io/badge/First%20steps-Tutorial-important)](https://cph-tum.gitlab.io/bertha/md_docs_TUTORIAL.html)
 
+## Documentation and first steps
+
+Follow the [documentation](https://cph-tum.gitlab.io/bertha) and the
+[tutorial](https://cph-tum.gitlab.io/bertha/md_docs_TUTORIAL.html) therein.
+
 ## Install via conda
 
 If you have a conda distribution installed, you can install bertha using
@@ -54,9 +59,24 @@ The project is built using the CMake build system, which can be used via GUI
 or command line. For brevity's sake, only the command line approach is
 sketched below.
 
-### Linux
+### Building within a conda environment
 
-The typical commands under Linux are
+Make sure to set the build and installation prefix to the active conda
+environment by specifying the arguments
+
+    $ cmake -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
+        -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX ..
+
+under Linux and macOS, or
+
+    $ cmake -DCMAKE_PREFIX_PATH="%CONDA_PREFIX%/Library" ^
+        -DCMAKE_INSTALL_PREFIX="%CONDA_PREFIX%/Library" ..
+
+under Windows. Apart from this step, proceed as described below.
+
+### Linux or macOS
+
+The typical commands under UNIX-based operating systems are
 
     $ cd bertha
     $ mkdir build
@@ -131,12 +151,14 @@ If you found the code helpful and used it in your research, you can cite
 the following paper:
 
 Riesch, Michael and Nguyen, Tien Dat and Jirauschek, Christian,
-"bertha: Project skeleton for scientific software.",
-[arXiv:1912.01640](https://arxiv.org/abs/1912.01640), (2019).
+"bertha: Project skeleton for scientific software," Accepted in PLOS ONE
+(2020).
+[PDF](https://arxiv.org/abs/1912.01640)
+[DOI](http://dx.doi.org/10.1371/journal.pone.0230557)
 
 If desired, you can cite the project web page directly:
 
 Riesch, Michael and Jirauschek, Christian, "bertha: Project skeleton for
-scientific software (C++ with Python interface)",
+scientific software (C++ with Python interface),"
 [https://gitlab.com/cph-tum/bertha](https://gitlab.com/cph-tum/bertha)
 [Online], (2019).
