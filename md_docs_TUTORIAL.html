@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>bertha v1.0.0: Tutorial</title>
+<title>bertha v1.1.0: Tutorial</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -37,7 +37,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">bertha v1.0.0
+   <div id="projectname">bertha v1.1.0
    </div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
@@ -116,7 +116,8 @@ $(document).ready(function(){initNavTree('md_docs_TUTORIAL.html','');});
 <li>Adapt the <code>NOTICE.md</code> file and change the project name and description in lines 3-4. Leave the rest of the file as is, unless you have to add further projects you use within your project.</li>
 <li>Consider publishing your code as open-source project. If you decide to do so, you will have to select an appropriate license for your project. Adapt the <code>LICENSE</code> file accordingly.</li>
 <li>Adapt the <code>CODE_OF_CONDUCT.md</code> file as desired. Make sure to insert the contact information of the project team or maintainer.</li>
-<li>Set up the distribution via conda.</li>
+<li>Adapt the templates for issues and pull/merge requests for GitHub (in .github/) and GitLab (in .gitlab/) as desired.</li>
+<li>Update the URLs of the badges in <code>README.md</code>. Note that you have to enable <a href="https://docs.gitlab.com/ee/user/project/pipelines/settings.html#test-coverage-parsing">test coverage parsing</a> in GitLab in order to enable the coverage badge.</li>
 </ul>
 <h2>Implementation stage</h2>
 <ul>
@@ -131,7 +132,7 @@ $(document).ready(function(){initNavTree('md_docs_TUTORIAL.html','');});
 <li>Share your project as early as possible. Thereby, you can attract feedback from other developers, researchers, or users, which will make your project stronger.</li>
 <li>Update the <code>README.md</code> and let people know how they can cite your work.</li>
 <li>Adapt <code>TUTORIAL.md</code> and explain what should the user know at the beginning. Give starting points, consider adding code examples.</li>
-<li>Create a recipe for your project in conda-forge. See the <a href="https://conda-forge.org/docs/maintainer/adding_pkgs.html">conda-forge documentation</a> for a tutorial how to accomplish that. The recipe created for bertha itself may serve as reference as well. Currently, this recipe is available <a href="https://github.com/conda-forge/staged-recipes/pull/10097">here</a>. </li>
+<li>Create a recipe for your project in conda-forge. See the <a href="https://conda-forge.org/docs/maintainer/adding_pkgs.html">conda-forge documentation</a> for a tutorial how to accomplish that. The recipe created for bertha itself (available <a href="https://github.com/conda-forge/bertha-feedstock">here</a>) may serve as reference. </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- doc-content -->

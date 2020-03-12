@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "bertha v1.0.0", "index.html", [
+  [ "bertha v1.1.0", "index.html", [
     [ "bertha", "index.html", null ],
     [ "Changelog", "md_CHANGELOG.html", null ],
     [ "License notice", "md_NOTICE.html", null ],
