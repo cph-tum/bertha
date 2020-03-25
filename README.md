@@ -151,10 +151,10 @@ If you found the code helpful and used it in your research, you can cite
 the following paper:
 
 Riesch, Michael and Nguyen, Tien Dat and Jirauschek, Christian,
-"bertha: Project skeleton for scientific software," Accepted in PLOS ONE
-(2020).
-[PDF](https://arxiv.org/abs/1912.01640)
-[DOI](https://doi.org/10.1371/journal.pone.0230557)
+"bertha: Project skeleton for scientific software," PLOS ONE 15(3),
+e0230557, 1-12 (2020).
+[![arXiv:1912.01640](https://img.shields.io/badge/arXiv-1912.01640-informational)](https://arxiv.org/abs/1912.01640)
+[![doi:10.1371/journal.pone.0230557](https://img.shields.io/badge/DOI-10.1371/journal.pone.0230557-important)](https://doi.org/10.1371/journal.pone.0230557)
 
 If desired, you can cite the project web page directly:
 
