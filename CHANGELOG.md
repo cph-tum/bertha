@@ -7,6 +7,8 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - xxxx-xx-xx
+
 ## [1.1.0] - 2020-03-12
 
 This release introduces support for GitHub and revises the existing code
