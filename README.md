@@ -154,7 +154,7 @@ Riesch, Michael and Nguyen, Tien Dat and Jirauschek, Christian,
 "bertha: Project skeleton for scientific software," Accepted in PLOS ONE
 (2020).
 [PDF](https://arxiv.org/abs/1912.01640)
-[DOI](http://dx.doi.org/10.1371/journal.pone.0230557)
+[DOI](https://doi.org/10.1371/journal.pone.0230557)
 
 If desired, you can cite the project web page directly:
 
