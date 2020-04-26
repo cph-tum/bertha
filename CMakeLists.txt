@@ -57,6 +57,7 @@ endif()
 option(WITH_DOXYGEN "with(out) Doxygen documentation" ON)
 option(WITH_FORMAT "with(out) clang-format support" ON)
 option(WITH_PYTHON "with(out) Python interface" ON)
+option(WITH_STATIC_ANALYSIS "with(out) static analysis" ON)
 option(WITH_TESTS "with(out) Catch2 unit tests" OFF)
 
 # Python interface dependencies available?
@@ -96,6 +97,14 @@ if(WITH_FORMAT)
   find_program(CLANG_FORMAT NAMES "clang-format" "clang-format-6.0")
   if(CLANG_FORMAT)
     set(USE_FORMAT TRUE)
+  endif()
+endif()
+
+# static analysis
+if(WITH_STATIC_ANALYSIS)
+  find_program(CLANG_TIDY NAMES "clang-tidy" "clang-tidy-6.0")
+  if(CLANG_TIDY)
+    set(USE_ANALYSIS TRUE)
   endif()
 endif()
 
@@ -152,4 +161,17 @@ if(USE_FORMAT)
   add_custom_target(format
     COMMAND ${CLANG_FORMAT} -style=file -i ${ALL_SOURCE_FILES}
     COMMENT "Formatting all source files")
+endif()
+
+# perform static analysis
+if(USE_ANALYSIS)
+  set(ANALYSIS_INCLUDES
+    -I${CMAKE_CURRENT_LIST_DIR}/core/include)
+  add_custom_target(analysis
+    COMMAND
+    ${CLANG_TIDY} --fix --quiet
+    ${ALL_SOURCE_FILES}
+    --
+    ${ANALYSIS_INCLUDES}
+    COMMENT "Running static analysis with clang-tidy...")
 endif()

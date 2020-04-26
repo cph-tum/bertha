@@ -12,7 +12,9 @@ jobs:
          packages:
           - ca-certificates
           - cmake
+          - clang
           - clang-format-6.0
+          - clang-tidy
           - doxygen
           - g++
           - gcovr
@@ -33,16 +35,21 @@ jobs:
      script:
       - mkdir -p build
       - cd build
-      - cmake -DWITH_TESTS=ON ..
+      - cmake -DWITH_STATIC_ANALYSIS=ON -DWITH_TESTS=ON ..
       - cmake --build .
+      - cmake --build . --target analysis | tee -a analysis.txt
+      - if [ `cat analysis.txt | grep 'error:' | wc -l` -gt "0" ];
+          then travis_terminate 1;
+        fi
       - cmake --build . --target doc
       - sudo cmake --build . --target install
       - ctest
       - gcovr -r ..
       - cd ..
-      - python -c "import bertha.core as b; d = b.device(1, 2); d.get_length()"
+      - python -c
+        "import bertha.core as b; d = b.device(1, 2); d.get_length()"
       - git diff
-      - if [ `git diff | wc -l` -gt "0" ]; then false; fi
+      - if [ `git diff | wc -l` -gt "0" ]; then travis_terminate 1; fi
      deploy:
        provider: pages
        skip_cleanup: true
@@ -58,6 +65,7 @@ jobs:
        homebrew:
          packages:
           - catch2
+          - llvm
           - cmake
           - doxygen
           - git
@@ -66,15 +74,18 @@ jobs:
           - swig
          update: true
      script:
+      - ln -s "$(brew --prefix llvm)/bin/clang-tidy" /usr/local/bin/clang-tidy
       - mkdir -p build
       - cd build
-      - cmake -DWITH_TESTS=ON ..
+      - cmake -DWITH_STATIC_ANALYSIS=ON -DWITH_TESTS=ON ..
       - cmake --build .
+      - cmake --build . --target analysis
       - cmake --build . --target doc
       - sudo cmake --build . --target install
       - ctest
       - cd ..
-      - python -c "import bertha.core as b; d = b.device(1, 2); d.get_length()"
+      - python -c
+        "import bertha.core as b; d = b.device(1, 2); d.get_length()"
    - os: windows
      env:
       - LIBRARY_PREFIX="C:/Tools/miniconda3/envs/bertha/Library"
@@ -96,4 +107,5 @@ jobs:
       - cmake --build . --config Release --target install
       - ctest
       - cd ..
-      - python -c "import bertha.core as b; d = b.device(1, 2); d.get_length()"
+      - python -c
+        "import bertha.core as b; d = b.device(1, 2); d.get_length()"

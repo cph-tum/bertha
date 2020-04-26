@@ -17,7 +17,7 @@ stages:
   script:
    - mkdir -p build
    - cd build
-   - cmake -G "Unix Makefiles" -DWITH_TESTS=ON ..
+   - cmake -G "Unix Makefiles" -DWITH_STATIC_ANALYSIS=OFF -DWITH_TESTS=ON ..
    - make -j 4
    - make doc
   artifacts:
@@ -83,7 +83,7 @@ cpp-format:
    - mkdir -p build
    - cd build
    - cmake  -G "Unix Makefiles" -DWITH_PYTHON=OFF -DWITH_DOXYGEN=OFF
-       -DWITH_TESTS=OFF ..
+       -DWITH_STATIC_ANALYSIS=OFF -DWITH_TESTS=OFF ..
    - make format
    - cd ..
    - git diff > build/format_check_revisionlist.txt
@@ -92,6 +92,34 @@ cpp-format:
     when: on_failure
     paths:
      - "build/format_check_revisionlist.txt"
+  allow_failure: true
+
+static-analysis:
+  image: ubuntu:18.04
+  tags:
+   - docker
+   - linux
+  stage: quality
+  before_script:
+   - apt update && apt install --no-install-recommends -y
+       clang clang-tidy cmake g++ git make
+  script:
+   - mkdir -p build
+   - cd build
+   - cmake -G "Unix Makefiles" -DWITH_DOXYGEN=OFF -DWITH_FORMAT=OFF
+       -DWITH_PYTHON=OFF -DWITH_STATIC_ANALYSIS=ON -DWITH_TESTS=OFF ..
+   - make analysis | tee -a static_analysis_output.txt
+   - if [ `cat static_analysis_output.txt | grep 'error:' | wc -l` -gt "0" ];
+       then false;
+     fi
+   - cd ..
+   - git diff > build/static_analysis_revisionlist.txt
+   - if [ `git diff | wc -l` -gt "0" ]; then false; fi
+  artifacts:
+    when: on_failure
+    paths:
+     - "build/static_analysis_output.txt"
+     - "build/static_analysis_revisionlist.txt"
   allow_failure: true
 
 pages:

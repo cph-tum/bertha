@@ -55,15 +55,41 @@ public:
     explicit device(double length);
 
     /**
+     * Constructs device by copying.
+     * \param [in] other Device to be copied.
+     */
+    device(const device& other) = default;
+
+    /**
+     * Constructs device by acquiring resources held by another device.
+     * \param [in] other Device from which resources are moved.
+     */
+    device(device&& other) = default;
+
+    /**
      * Deconstructs device.
      */
-    ~device();
+    ~device() = default;
+
+    /**
+     * Assigns device properties by copying from another device.
+     * \param [in] other Device to be copied.
+     * \return the lvalue reference to this device.
+     */
+    device& operator=(const device& other) = default;
+
+    /**
+     * Assigns device properties by moving resources from another device.
+     * \param [in] other Device from which resources are moved.
+     * \return the lvalue reference to this device.
+     */
+    device& operator=(device&& other) = default;
 
     /**
      * Gets device length.
      */
     double get_length() const;
 };
-}
+} // namespace bertha
 
 #endif

@@ -32,11 +32,9 @@ device::device(double x_start, double x_end)
 
 device::device(double length) : device::device(0.0, length) {}
 
-device::~device() {}
-
 double
 device::get_length() const
 {
     return (m_x_end - m_x_start);
 }
-}
+} // namespace bertha

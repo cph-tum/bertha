@@ -1,0 +1,6 @@
+---
+Checks: 'cert-*,clang-diagnostic-*,clang-analyzer-*,cppcoreguidelines-*,hicpp-*,llvm-*,mpi-*,openmp-*,performance-*,portability-*,readability-*'
+WarningsAsErrors: ''
+HeaderFilterRegex: ''
+FormatStyle: file
+...
